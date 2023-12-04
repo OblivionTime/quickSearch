@@ -1,0 +1,48 @@
+{
+    "nsis": {
+        "allowToChangeInstallationDirectory": true,
+        "oneClick": false,
+        "installerIcon": "./src/assets/logo.ico",
+        "installerHeaderIcon": "./src/assets/logo.ico",
+        "guid": "xxxx",
+        "perMachine": true,
+        "allowElevation": true,
+        "createDesktopShortcut": true,
+        "createStartMenuShortcut": true,
+        "shortcutName": "quickSearch"
+    },
+    "files": [
+        "./main",
+        "./dist"
+    ],
+    "compression": "maximum",
+    "asar": true,
+    "directories": {
+        "output": "build"
+    },
+    "electronDownload": {
+        "mirror": "https://npm.taobao.org/mirrors/electron/"
+    },
+    "win": {
+        "icon": "./src/assets/logo.ico",
+        "target": [
+            {
+                "target": "nsis",
+                "arch": [
+                    "x64"
+                ]
+            }
+        ],
+        "extraFiles": [
+            {
+                "from": "quickSearch.exe",
+                "to": "quickSearch.exe"
+            }, {
+                "from": "config.yaml",
+                "to": "config.yaml"
+            }
+        ]
+    },
+    "productName": "快寻",
+    "artifactName": "${productName}.${ext}"
+}

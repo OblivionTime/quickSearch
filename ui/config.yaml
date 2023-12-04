@@ -1,0 +1,9 @@
+
+
+# system configuration
+system:
+  addr: 8989
+  db-type: sqlite3
+  #  路由全局前缀
+  router-prefix: "/v1/quickSearch/api/"
+
