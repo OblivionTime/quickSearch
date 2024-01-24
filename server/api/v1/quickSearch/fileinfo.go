@@ -10,7 +10,7 @@ import (
 
 type FileInfoApi struct{}
 
-//添加文件
+// 添加文件
 func (b *FileInfoApi) AddFileInfo(ctx *gin.Context) {
 	var info quickSearch.FileInfo
 	if err := ctx.ShouldBindJSON(&info); err != nil {
@@ -29,21 +29,21 @@ func (b *FileInfoApi) AddFileInfo(ctx *gin.Context) {
 	QSResp.Ok(ctx)
 }
 
-//更新文件信息
+// 更新文件信息
 func (b *FileInfoApi) UpdateFileInfo(ctx *gin.Context) {
 	var info quickSearch.FileInfo
 	if err := ctx.ShouldBindJSON(&info); err != nil {
 		QSResp.FailWithMessage("参数错误!!!", ctx)
 		return
 	}
-	if err := global.DB.Model(quickSearch.FileInfo{}).Updates(&info).Error; err != nil {
+	if err := global.DB.Model(quickSearch.FileInfo{}).Where("id=?", info.ID).UpdateColumn("name", info.Name).Error; err != nil {
 		QSResp.Fail(ctx)
 		return
 	}
 	QSResp.Ok(ctx)
 }
 
-//删除文件信息
+// 删除文件信息
 func (b *FileInfoApi) DeleteFileInfo(ctx *gin.Context) {
 	var id = ctx.Query("id")
 	if err := global.DB.Model(quickSearch.FileInfo{}).Delete(&quickSearch.FileInfo{}, id).Error; err != nil {

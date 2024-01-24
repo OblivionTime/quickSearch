@@ -131,16 +131,28 @@ const isDirectory = (path) => {
     const stats = fs.statSync(path);
     return stats.isDirectory();
 }
+const handlerCateGory = () => {
+
+    for (const item of CategoryList.value) {
+        if (item.value == active_id.value) {
+            return
+        }
+    }
+}
 const handleDrop = (event) => {
     try {
         if (addFileDialog.value) {
             return
         }
+        let column_id = active_id.value
+        if (active_id.value == 0) {
+            column_id = CategoryList.value[1].value
+        }
         FileForData.value = {
             name: event.dataTransfer.files[0].name,
             file_path: event.dataTransfer.files[0].path,
             file_type: isDirectory(event.dataTransfer.files[0].path) ? "文件夹" : "文件",
-            column_id: CategoryList.value[1].value,
+            column_id: column_id,
         }
         addFileDialog.value = true
     } catch (error) {
@@ -296,6 +308,7 @@ const FileRightMenu = [
         name: "重命名",
         icon: EditIcon,
         action: () => {
+            let id = FileList.value[rightClickMenuRef2.value.active_item].id
             ElMessageBox.prompt('请输入名称', '修改名称', {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
@@ -303,7 +316,7 @@ const FileRightMenu = [
                 inputValidator: inputValidator,
             })
                 .then(({ value }) => {
-                    UpdateFileInfo({ name: value })
+                    UpdateFileInfo({ id, name: value })
                         .then((res) => {
                             if (res.code == 0) {
                                 ElMessage({
@@ -493,6 +506,7 @@ onMounted(() => {
             margin-top: 10px;
             font-size: 12px;
             color: #868e96;
+            word-break: break-all;
         }
     }
 }
